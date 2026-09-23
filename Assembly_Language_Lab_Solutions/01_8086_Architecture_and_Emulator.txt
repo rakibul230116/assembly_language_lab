@@ -1,0 +1,74 @@
+PROBLEM 01: Introduction of 8086 Microprocessor Architecture and Emulator
+==========================================================================
+
+8086 BASIC ARCHITECTURE
+-----------------------
+1. 8086 is a 16-bit microprocessor.
+2. It has a 20-bit address bus, so it can address 1 MB memory.
+3. It has a 16-bit data bus.
+4. Main internal parts:
+   - Bus Interface Unit (BIU)
+   - Execution Unit (EU)
+
+REGISTERS
+---------
+General purpose:
+AX = Accumulator
+BX = Base
+CX = Count
+DX = Data
+
+Each can be divided into high/low bytes:
+AX = AH + AL
+BX = BH + BL
+CX = CH + CL
+DX = DH + DL
+
+Pointer/Index:
+SP = Stack Pointer
+BP = Base Pointer
+SI = Source Index
+DI = Destination Index
+
+Segment:
+CS = Code Segment
+DS = Data Segment
+SS = Stack Segment
+ES = Extra Segment
+
+Other:
+IP = Instruction Pointer
+FLAGS = Flag Register
+
+IMPORTANT FLAGS
+---------------
+CF = Carry Flag
+PF = Parity Flag
+AF = Auxiliary Carry Flag
+ZF = Zero Flag
+SF = Sign Flag
+OF = Overflow Flag
+
+MEMORY ADDRESSING
+-----------------
+Physical Address = Segment * 10H + Offset
+
+Example:
+DS = 2000H
+Offset = 0010H
+Physical address = 2000H * 10H + 0010H
+                 = 20000H + 0010H
+                 = 20010H
+
+EMU8086 / DOSBOX / MASM
+-----------------------
+For beginner lab programs, these solutions use MASM/TASM-style 8086
+DOS interrupt 21H. They can be tested in an 8086 emulator such as
+EMU8086 or in a DOSBox + MASM/TASM setup.
+
+Typical MASM commands:
+    MASM filename.asm;
+    LINK filename.obj;
+    filename.exe
+
+Or assemble/run directly in an emulator that supports MASM syntax.

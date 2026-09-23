@@ -1,0 +1,13 @@
+ASSEMBLY LANGUAGE LAB PROBLEM LIST - SOLVED
+
+01. Introduction of 8086 Microprocessor Architecture and Emulator
+02. Write a simple program to show a "Hello World" message
+03. Input two numbers & print them in assembly language
+04. Implement MOV, XCHG, ADD, SUB, INC, DEC, NEG
+05. Calculate the sum of two numbers
+06. Read a character and display it at the beginning of the next line
+07. Print a string
+08. Convert lowercase letters to uppercase letters
+09. Perform an operation and display flag value
+10. Display printable IBM/ASCII character set using jump instructions
+11. Replace number in AX by its absolute value using branching
