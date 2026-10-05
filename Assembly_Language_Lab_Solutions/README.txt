@@ -1,89 +1,35 @@
-8086 ASSEMBLY LANGUAGE LAB - EASY SOLUTIONS
-============================================
+8086 Assembly Problems 12-20
+==============================
 
-Course: CSE 3210 - Microprocessor and Assembly Language
+These files are written in MASM/TASM/EMU8086-compatible 8086 DOS assembly syntax.
 
-All programs are written in simple MASM/TASM 8086 DOS style.
+Files:
+12  problem12_uppercase_and.asm
+13  problem13_y_or_Y.asm
+14  problem14_invert_16bit.asm
+15  problem15_lower_to_upper.asm
+16  problem16_ascii_digit_to_value.asm
+17  problem17_multiply_ax_by_2_shift.asm
+18  problem18_divide_bx_by_8.asm
+19  problem19_rotate_bx_left_4.asm
+20  problem20_reverse_8_bits.asm
 
-FILES
------
-01_8086_Architecture_and_Emulator.txt
-    Basic 8086 architecture, registers, flags, memory and emulator notes.
+How to run in EMU8086:
+1. Open the .asm file.
+2. Compile/Assemble it.
+3. Run it.
+4. For Problems 14 and 17-20, inspect the specified register/memory value in the emulator debugger.
 
-02_Hello_World.asm
-    Prints Hello World.
+Important:
+- Problem 14 result is stored in memory variable 'number' and loaded into AX.
+- Problem 17 result is in AX.
+- Problem 18 result is in BX.
+- Problem 19 result is in BX.
+- Problem 20 result is in BL.
 
-03_Input_Two_Numbers_Print.asm
-    Inputs two single-digit numbers and prints them.
-
-04_All_Operations.asm
-    Demonstrates MOV, XCHG, ADD, SUB, INC, DEC and NEG.
-
-05_Sum_of_Two_Numbers.asm
-    Inputs two single-digit numbers and calculates their sum.
-
-06_Read_Character_Display_Next_Line.asm
-    Reads one character and displays it at the beginning of the next line.
-
-07_Print_a_String.asm
-    Prints a string.
-
-08_Lowercase_to_Uppercase.asm
-    Converts one lowercase letter to uppercase.
-
-09_Display_Flags.asm
-    Performs FFFFH + 0001H and displays Carry Flag and Zero Flag.
-
-10_Display_IBM_Instruction_Character_Set.asm
-    Displays printable ASCII/IBM-style character set using a jump loop.
-
-11_Absolute_Value_of_AX.asm
-    Converts the number in AX to its absolute value using branching.
-
-HOW TO RUN
-----------
-Option 1: EMU8086
-1. Open EMU8086.
-2. Create/open an .ASM file.
-3. Paste/open the required program.
-4. Compile/Emulate.
-5. Run and observe the output.
-
-Option 2: MASM/TASM + DOSBox
-1. Put the .ASM files in your DOSBox working folder.
-2. Assemble:
-       MASM filename.asm;
-3. Link:
-       LINK filename.obj;
-4. Run:
-       filename.exe
-
-IMPORTANT
----------
-These are beginner-friendly versions. Most input examples use a single
-digit because that keeps the 8086 code easy to understand.
-
-DOS INT 21H FUNCTIONS USED
---------------------------
-AH=01H : Read one character from keyboard (also echoes it)
-AH=02H : Display one character in DL
-AH=09H : Display a $-terminated string at DS:DX
-AH=4CH : Exit to DOS
-
-COMMON PROGRAM STRUCTURE
-------------------------
-.MODEL SMALL
-.STACK 100H
-.DATA
-    ; variables/messages
-.CODE
-MAIN PROC
-    MOV AX, @DATA
-    MOV DS, AX
-
-    ; program instructions
-
-    MOV AH, 4CH
-    INT 21H
-MAIN ENDP
-END MAIN
+Sample results:
+P14: number = 1234H -> ED CB H (EDCBH)
+P17: AX = 0015H -> 002AH
+P18: BX = 0064H -> 000CH (100 / 8 = 12)
+P19: BX = 1234H -> 2341H
+P20: AL = 90H (10010000B) -> BL = 09H (00001001B)
