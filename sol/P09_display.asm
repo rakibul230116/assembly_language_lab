@@ -1,0 +1,52 @@
+TITLE PGM9: DISPLAY FLAG VALUE OF AN OPERATION
+; CSE 3210 Lab Problem 09 - style of Yu & Marut (Assembly Language Programming)
+.MODEL SMALL
+.STACK 100H
+.DATA
+CR EQU 0DH
+LF EQU 0AH
+M1 DB 'After FFFFh + 1, FLAGS (binary): $'
+M2 DB 0DH,0AH,'Bit 15..0 : -  -  -  -  OF DF IF TF SF ZF -  AF -  PF -  CF',0DH,0AH,'$'
+.CODE
+MAIN PROC
+; initialize DS
+ MOV AX,@DATA
+ MOV DS,AX
+ MOV AX,0FFFFH
+ ADD AX,1          ; AX=0, so ZF=1, CF=1, PF=1
+ PUSHF
+ POP BX            ; BX = flag register
+ LEA DX,M1
+ MOV AH,9
+ INT 21H
+ CALL BINOUT
+ LEA DX,M2
+ MOV AH,9
+ INT 21H
+; DOS exit
+ MOV AH,4CH
+ INT 21H
+MAIN ENDP
+
+BINOUT PROC           ; prints BX as 16-bit binary (BX preserved)
+ PUSH AX
+ PUSH BX
+ PUSH CX
+ PUSH DX
+ MOV CX,16
+B_TOP:
+ MOV DL,'0'
+ SHL BX,1
+ JNC B_SHOW
+ MOV DL,'1'
+B_SHOW:
+ MOV AH,2
+ INT 21H
+ LOOP B_TOP
+ POP DX
+ POP CX
+ POP BX
+ POP AX
+ RET
+BINOUT ENDP
+END MAIN

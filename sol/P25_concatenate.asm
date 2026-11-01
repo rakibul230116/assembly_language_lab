@@ -1,0 +1,39 @@
+TITLE PGM25: CONCATENATE TWO STRINGS
+; CSE 3210 Lab Problem 25 - style of Yu & Marut (Assembly Language Programming)
+.MODEL SMALL
+.STACK 100H
+.DATA
+CR EQU 0DH
+LF EQU 0AH
+STR1 DB 'Assembly '
+LEN1 EQU $-STR1
+STR2 DB 'Language'
+LEN2 EQU $-STR2
+M1 DB 'Combined string: $'
+RESULT DB 50 DUP('$')
+.CODE
+MAIN PROC
+; initialize DS
+ MOV AX,@DATA
+ MOV DS,AX
+ MOV ES,AX         ; ES = DS (needed for MOVSB)
+ CLD
+ LEA SI,STR1
+ LEA DI,RESULT
+ MOV CX,LEN1
+ REP MOVSB         ; copy string 1
+ LEA SI,STR2
+ MOV CX,LEN2
+ REP MOVSB         ; append string 2
+ MOV BYTE PTR [DI],'$'
+ LEA DX,M1
+ MOV AH,9
+ INT 21H
+ LEA DX,RESULT
+ MOV AH,9
+ INT 21H
+; DOS exit
+ MOV AH,4CH
+ INT 21H
+MAIN ENDP
+END MAIN

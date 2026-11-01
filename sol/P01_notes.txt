@@ -1,0 +1,37 @@
+PROBLEM 01: Introduction of 8086 Microprocessor Architecture and Emulator
+(Reference: Yu & Marut, Ch.1 Microcomputer Systems, Ch.3 Organization of the IBM PC, Ch.4)
+
+8086: 16-bit processor, 16-bit data bus, 20-bit address bus (1 MB memory).
+Two units:  BIU - Bus Interface Unit (segment registers, IP, instruction queue, address generation)
+            EU  - Execution Unit (ALU, general registers, FLAGS, control)
+
+Registers
+  General  : AX (AH/AL) accumulator   BX (BH/BL) base   CX (CH/CL) count   DX (DH/DL) data
+  Pointer/Index : SP, BP, SI, DI
+  Segment  : CS (code), DS (data), SS (stack), ES (extra)
+  IP       : instruction pointer
+  FLAGS    : status flags CF PF AF ZF SF OF ; control flags TF IF DF
+
+Physical address = segment x 16 + offset
+
+Using the emulator (emu8086)
+  1. File > New, type the program, click "emulate" (compile + load).
+  2. Single Step / Run; watch registers, flags, memory and stack.
+  3. Virtual devices (e.g. LED Display) are opened from the emulator window.
+
+Standard program skeleton (book, PGM4_2):
+  TITLE PGMx: NAME
+  .MODEL SMALL
+  .STACK 100H
+  .DATA
+  .CODE
+  MAIN PROC
+      MOV AX,@DATA
+      MOV DS,AX
+      ...
+      MOV AH,4CH
+      INT 21H
+  MAIN ENDP
+      END MAIN
+
+INT 21H functions used: AH=1 read char (echo), AH=2 print char in DL, AH=9 print $-string at DS:DX, AH=4CH exit

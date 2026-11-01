@@ -1,35 +1,24 @@
-8086 Assembly Problems 12-20
-==============================
-
-These files are written in MASM/TASM/EMU8086-compatible 8086 DOS assembly syntax.
+ASSEMBLY LANGUAGE LAB SOLUTIONS — PROBLEMS 21–28
+=================================================
 
 Files:
-12  problem12_uppercase_and.asm
-13  problem13_y_or_Y.asm
-14  problem14_invert_16bit.asm
-15  problem15_lower_to_upper.asm
-16  problem16_ascii_digit_to_value.asm
-17  problem17_multiply_ax_by_2_shift.asm
-18  problem18_divide_bx_by_8.asm
-19  problem19_rotate_bx_left_4.asm
-20  problem20_reverse_8_bits.asm
+21. Five digits: original/reverse order, sum and average (stack)
+22. Unsigned multiplication using MUL
+23. Signed division using IDIV (single-digit input)
+24. GCD using repeated division/remainder (single-digit input)
+25. Concatenate two strings
+26. Recursive factorial (input 0–5)
+27. 8x8 dot matrix: illustrative 8255 hardware template
+28. Seven-segment display: illustrative 8255 hardware template
 
-How to run in EMU8086:
-1. Open the .asm file.
-2. Compile/Assemble it.
-3. Run it.
-4. For Problems 14 and 17-20, inspect the specified register/memory value in the emulator debugger.
+How to use:
+- Open an .asm file in EMU8086.
+- Compile/emulate the software problems (21–26) in EMU8086.
+- For hardware problems 27–28, the I/O port addresses are examples only.
+  Check your trainer kit's 8255 port map, wiring, and display polarity first.
+- Inputs in the provided simple programs are intentionally restricted to digits
+  to keep the lab examples beginner-friendly.
 
 Important:
-- Problem 14 result is stored in memory variable 'number' and loaded into AX.
-- Problem 17 result is in AX.
-- Problem 18 result is in BX.
-- Problem 19 result is in BX.
-- Problem 20 result is in BL.
-
-Sample results:
-P14: number = 1234H -> ED CB H (EDCBH)
-P17: AX = 0015H -> 002AH
-P18: BX = 0064H -> 000CH (100 / 8 = 12)
-P19: BX = 1234H -> 2341H
-P20: AL = 90H (10010000B) -> BL = 09H (00001001B)
+These are teaching examples. Hardware templates may need adaptation to your
+specific microprocessor trainer kit. Always test and verify before lab submission.

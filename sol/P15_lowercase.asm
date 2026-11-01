@@ -1,0 +1,32 @@
+TITLE PGM15: LOWERCASE TO UPPERCASE USING LOGIC OPERATION
+; CSE 3210 Lab Problem 15 - style of Yu & Marut (Assembly Language Programming)
+.MODEL SMALL
+.STACK 100H
+.DATA
+CR EQU 0DH
+LF EQU 0AH
+P1 DB 'Enter a lowercase letter: $'
+P2 DB 0DH,0AH,'Uppercase: $'
+.CODE
+MAIN PROC
+; initialize DS
+ MOV AX,@DATA
+ MOV DS,AX
+ LEA DX,P1
+ MOV AH,9
+ INT 21H
+ MOV AH,1
+ INT 21H
+ AND AL,11011111B   ; clear bit 5 -> uppercase
+ MOV BL,AL
+ LEA DX,P2
+ MOV AH,9
+ INT 21H
+ MOV AH,2
+ MOV DL,BL
+ INT 21H
+; DOS exit
+ MOV AH,4CH
+ INT 21H
+MAIN ENDP
+END MAIN

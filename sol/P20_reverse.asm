@@ -1,0 +1,58 @@
+TITLE PGM20: REVERSE ALL 8 BITS OF AL
+; CSE 3210 Lab Problem 20 - style of Yu & Marut (Assembly Language Programming)
+.MODEL SMALL
+.STACK 100H
+.DATA
+CR EQU 0DH
+LF EQU 0AH
+M1 DB 'Original: $'
+M2 DB 0DH,0AH,'Reversed: $'
+.CODE
+MAIN PROC
+; initialize DS
+ MOV AX,@DATA
+ MOV DS,AX
+ LEA DX,M1
+ MOV AH,9
+ INT 21H
+ MOV AL,00010111B
+ XOR BX,BX
+ MOV BL,AL
+ CALL BINOUT
+ XOR BX,BX
+ MOV CX,8
+REV:
+ SHL AL,1          ; MSB of AL -> CF
+ RCR BL,1          ; CF -> MSB of BL (shifts right)
+ LOOP REV
+ LEA DX,M2
+ MOV AH,9
+ INT 21H
+ CALL BINOUT
+; DOS exit
+ MOV AH,4CH
+ INT 21H
+MAIN ENDP
+
+BINOUT PROC           ; prints BX as 16-bit binary (BX preserved)
+ PUSH AX
+ PUSH BX
+ PUSH CX
+ PUSH DX
+ MOV CX,16
+B_TOP:
+ MOV DL,'0'
+ SHL BX,1
+ JNC B_SHOW
+ MOV DL,'1'
+B_SHOW:
+ MOV AH,2
+ INT 21H
+ LOOP B_TOP
+ POP DX
+ POP CX
+ POP BX
+ POP AX
+ RET
+BINOUT ENDP
+END MAIN

@@ -1,0 +1,45 @@
+TITLE PGM8: LOWER CASE TO UPPER CASE
+; CSE 3210 Lab Problem 08 - style of Yu & Marut (Assembly Language Programming)
+.MODEL SMALL
+.STACK 100H
+.DATA
+CR EQU 0DH
+LF EQU 0AH
+P1 DB 'Enter text (Enter to stop): $'
+P2 DB 0DH,0AH,'Upper case: $'
+BUF DB 80 DUP('$')
+.CODE
+MAIN PROC
+; initialize DS
+ MOV AX,@DATA
+ MOV DS,AX
+ LEA DX,P1
+ MOV AH,9
+ INT 21H
+ LEA SI,BUF
+READ:
+ MOV AH,1
+ INT 21H
+ CMP AL,0DH
+ JE DONE
+ CMP AL,'a'
+ JB SKIP
+ CMP AL,'z'
+ JA SKIP
+ SUB AL,20H        ; 'a'(61H) -> 'A'(41H)
+SKIP:
+ MOV [SI],AL
+ INC SI
+ JMP READ
+DONE:
+ LEA DX,P2
+ MOV AH,9
+ INT 21H
+ LEA DX,BUF
+ MOV AH,9
+ INT 21H
+; DOS exit
+ MOV AH,4CH
+ INT 21H
+MAIN ENDP
+END MAIN

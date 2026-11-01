@@ -1,0 +1,61 @@
+; Problem 26: Recursive factorial for input 0-5
+.MODEL SMALL
+.STACK 100H
+.DATA
+    MSG1 DB 'Enter a digit (0-5): $'
+    MSG2 DB 13,10,'Factorial = $'
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX
+    LEA DX, MSG1
+    MOV AH, 09H
+    INT 21H
+    MOV AH, 01H
+    INT 21H
+    SUB AL, '0'
+    XOR AH, AH
+    CALL FACTORIAL
+    PUSH AX
+    LEA DX, MSG2
+    MOV AH, 09H
+    INT 21H
+    POP AX
+    CALL PRINT_NUM
+    MOV AH, 4CH
+    INT 21H
+MAIN ENDP
+
+FACTORIAL PROC
+    CMP AX, 1
+    JBE BASE_CASE
+    PUSH AX
+    DEC AX
+    CALL FACTORIAL
+    POP BX
+    MUL BX
+    RET
+BASE_CASE:
+    MOV AX, 1
+    RET
+FACTORIAL ENDP
+
+PRINT_NUM PROC
+    XOR CX, CX
+    MOV BX, 10
+CONVERT:
+    XOR DX, DX
+    DIV BX
+    PUSH DX
+    INC CX
+    CMP AX, 0
+    JNE CONVERT
+DISPLAY:
+    POP DX
+    ADD DL, '0'
+    MOV AH, 02H
+    INT 21H
+    LOOP DISPLAY
+    RET
+PRINT_NUM ENDP
+END MAIN

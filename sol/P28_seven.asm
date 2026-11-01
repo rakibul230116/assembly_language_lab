@@ -1,0 +1,40 @@
+TITLE PGM28: SEVEN SEGMENT DISPLAY (EMU8086 LED DISPLAY, PORT 199)
+; CSE 3210 Lab Problem 28 - style of Yu & Marut (Assembly Language Programming)
+.MODEL SMALL
+.STACK 100H
+.DATA
+CR EQU 0DH
+LF EQU 0AH
+; Open Virtual Devices > LED Display BEFORE running
+.CODE
+MAIN PROC
+; initialize DS
+ MOV AX,@DATA
+ MOV DS,AX
+ MOV AX,0
+NEXT:
+ OUT 199,AX        ; LED display shows the value of AX
+ CALL DELAY
+ INC AX
+ CMP AX,10
+ JL NEXT
+; DOS exit
+ MOV AH,4CH
+ INT 21H
+MAIN ENDP
+
+DELAY PROC
+ PUSH CX
+ PUSH DX
+ MOV DX,200
+D1:
+ MOV CX,0FFFFH
+D2:
+ LOOP D2
+ DEC DX
+ JNZ D1
+ POP DX
+ POP CX
+ RET
+DELAY ENDP
+END MAIN

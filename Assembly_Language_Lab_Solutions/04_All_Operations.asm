@@ -12,7 +12,7 @@ MAIN PROC
     MOV DS, AX
 
     ; MOV: copy B into AX
-    MOV AX, B
+    MOV AX, A
 
     ; XCHG: exchange AX and B
     XCHG AX, B

@@ -1,0 +1,38 @@
+TITLE PGM13: Y OR Y (OR CONDITION)
+; CSE 3210 Lab Problem 13 - style of Yu & Marut (Assembly Language Programming)
+.MODEL SMALL
+.STACK 100H
+.DATA
+CR EQU 0DH
+LF EQU 0AH
+P1 DB 'Enter a character: $'
+P2 DB 0DH,0AH,'You typed: $'
+.CODE
+MAIN PROC
+; initialize DS
+ MOV AX,@DATA
+ MOV DS,AX
+ LEA DX,P1
+ MOV AH,9
+ INT 21H
+ MOV AH,1
+ INT 21H
+ MOV BL,AL
+ CMP BL,'y'
+ JE SHOW
+ CMP BL,'Y'
+ JE SHOW
+ JMP QUIT
+SHOW:
+ LEA DX,P2
+ MOV AH,9
+ INT 21H
+ MOV AH,2
+ MOV DL,BL
+ INT 21H
+QUIT:
+; DOS exit
+ MOV AH,4CH
+ INT 21H
+MAIN ENDP
+END MAIN
