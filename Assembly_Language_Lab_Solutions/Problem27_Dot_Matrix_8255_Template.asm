@@ -1,33 +1,24 @@
-; Problem 27: 8x8 dot-matrix - illustrative 8255 hardware template
-; Assumptions only: Port A=00h, Port B=02h, Control=06h.
-; Actual port addresses, polarity and wiring depend on your kit.
-; Real displays generally need repeated row scanning/multiplexing.
+; Dot matrix: letter A in green (the 8 columns are lit one after another, fast)
 .MODEL SMALL
-.STACK 100H
 .CODE
-MAIN PROC
-    MOV DX, 06H
-    MOV AL, 80H
-    OUT DX, AL                  ; 8255 Mode 0, ports output (example)
+     ORG 1000H            ; the kit starts the program at 0000:1000
+     MOV AL, 80H
+     OUT 1EH, AL          ; 8255 (CS1): ports A, B, C = output
+     MOV AL, 0FFH
+     OUT 18H, AL          ; port A (red) off
+FRAME:
+     XOR SI, SI           ; start from column 1
+     MOV AH, 1            ; AH = column select
+COL: MOV AL, CS:FONT[SI]
+     OUT 1AH, AL          ; port B = green rows of this column (0 = LED on)
+     MOV AL, AH
+     OUT 1CH, AL          ; port C = select this column
+     MOV CX, 300          ; short delay for each column
+T1:  LOOP T1
+     INC SI
+     SHL AH, 1            ; next column
+     JNZ COL
+     JMP FRAME            ; scan all 8 columns again
+FONT DB 0FFH, 0C0H, 0B7H, 77H, 77H, 0B7H, 0C0H, 0FFH   ; letter A, 1 byte = 1 column
+END
 
-    MOV SI, OFFSET PATTERN
-    MOV CX, 8
-DISPLAY_ROW:
-    MOV AX, 8
-    SUB AX, CX
-    MOV DX, 02H
-    OUT DX, AL                  ; row select (example)
-
-    MOV AL, [SI]
-    MOV DX, 00H
-    OUT DX, AL                  ; column bitmap (example)
-
-    INC SI
-    LOOP DISPLAY_ROW
-
-    MOV AH, 4CH
-    INT 21H
-MAIN ENDP
-
-PATTERN DB 18H, 3CH, 7EH, 0FFH, 18H, 18H, 18H, 18H
-END MAIN

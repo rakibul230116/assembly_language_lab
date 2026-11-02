@@ -1,0 +1,26 @@
+; Q7: Count the number of 1 bits in 5AH using ROR
+.MODEL SMALL
+.STACK 100H
+.DATA
+    NUMBER DB 5AH
+    COUNT  DB 00H
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX
+    MOV AL, NUMBER
+    MOV BL, 00H
+    MOV CX, 8
+
+L1:
+    ROR AL, 1
+    JNC NEXT
+    INC BL
+NEXT:
+    LOOP L1
+
+    MOV COUNT, BL      ; COUNT = 04H
+    MOV AH, 4CH
+    INT 21H
+MAIN ENDP
+END MAIN

@@ -1,0 +1,36 @@
+; Q6: Factorial using CALL/RET and PUSH/POP
+.MODEL SMALL
+.STACK 100H
+.DATA
+    N      DW 4
+    RESULT DW ?
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX
+    MOV AX, N
+    CALL FACTORIAL
+    MOV RESULT, AX     ; 4! = 0018H
+    MOV AH, 4CH
+    INT 21H
+MAIN ENDP
+
+FACTORIAL PROC
+    PUSH BX
+    PUSH CX
+
+    MOV BX, AX         ; Keep original N
+    MOV AX, 0001H
+    MOV CX, BX
+    JCXZ FACT_DONE     ; 0! = 1
+
+FACT_LOOP:
+    MUL CX             ; DX:AX = AX * CX
+    LOOP FACT_LOOP
+
+FACT_DONE:
+    POP CX
+    POP BX
+    RET
+FACTORIAL ENDP
+END MAIN
